@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { initialItems } from "../lib/constants";
+import { initialGroups } from "../lib/constants";
 import { persist } from "zustand/middleware";
 
 export const useItemsStore = create(
   persist(
     (set) => ({
-      items: initialItems,
+      group: initialGroups[0],
       addItem: (newItemText) => {
         const newItem = {
           id: new Date().getTime(),
@@ -13,47 +13,57 @@ export const useItemsStore = create(
           packed: false,
         };
 
-        set((state) => ({ items: [...state.items, newItem] }));
+        set((state) => ({
+          group: { ...state.group, items: [...state.group.items, newItem] },
+        }));
       },
       deleteItem: (id) => {
         set((state) => {
-          const newItems = state.items.filter((item) => item.id !== id);
-          return { items: newItems };
+          const newItems = state.group.items.filter((item) => item.id !== id);
+          return { group: { ...state.group, items: newItems } };
         });
       },
       toggleItem: (id) => {
         set((state) => {
-          const newItems = state.items.map((item) => {
+          const newItems = state.group.items.map((item) => {
             if (item.id === id) {
               return { ...item, packed: !item.packed };
             }
             return item;
           });
-          return { items: newItems };
+          return { group: { ...state.group, items: newItems } };
         });
       },
       removeAllItems: () => {
-        set(() => ({ items: [] }));
+        set((state) => ({ group: { ...state.group, items: [] } })); // group będzie nowym obiektem ze sklonowaną group i nadpisanymi items-ami
       },
       resetToInitial: () => {
-        set(() => ({ items: initialItems }));
+        set((state) => {
+          const initialGroup = initialGroups.find(
+            (obj) => obj.id === state.group.id
+          );
+          return { group: initialGroup };
+        });
       },
       markAllAsComplete: () => {
         set((state) => {
           // stan bieżący stanu, czyli cały tutaj wielki obj / akcja powoduje modyfikacje stanu
-          const newItems = state.items.map((item) => {
+          const newItems = state.group.items.map((item) => {
             return { ...item, packed: true };
           });
-          return { items: newItems };
+          return { group: { ...state.group, items: newItems } };
         });
       },
       markAllAsIncomplete: () => {
         set((state) => {
-          const newItems = state.items.map((item) => {
+          const newItems = state.group.items.map((item) => {
             return { ...item, packed: false };
           });
-          return { items: newItems };
+          return { group: { ...state.group, items: newItems } };
         });
+      },
+      switchGroup: (idx) => {
+        set(() => ({ group: initialGroups[idx] }));
       },
     }),
     {

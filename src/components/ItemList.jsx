@@ -19,23 +19,25 @@ const sortingOptions = [
 ];
 
 export default function ItemList() {
-  const items = useItemsStore((state) => state.items);
+  const { items } = useItemsStore((state) => state.group);
   const deleteItem = useItemsStore((state) => state.deleteItem);
   const toggleItem = useItemsStore((state) => state.toggleItem);
   const [sortBy, setSortBy] = useState("default");
 
-  const sortedItems = useMemo(() =>
-    [...items].sort((a, b) => {
-      if (sortBy === "packed") {
-        return b.packed - a.packed;
-      }
+  const sortedItems = useMemo(
+    () =>
+      [...items].sort((a, b) => {
+        if (sortBy === "packed") {
+          return b.packed - a.packed;
+        }
 
-      if (sortBy === "unpacked") {
-        return a.packed - b.packed;
-      }
+        if (sortBy === "unpacked") {
+          return a.packed - b.packed;
+        }
 
-      return;
-    })
+        return;
+      }),
+    [items, sortBy]
   );
 
   return (

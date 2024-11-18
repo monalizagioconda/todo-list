@@ -1,9 +1,12 @@
 export default function Footer() {
   return (
     <footer>
-      <small>&copy; 2050 Copyright by ByteGrad.</small>
+      <small>
+        &copy; {new Date().getFullYear()} Copyright by Monaliza inspired by
+        ByteGrad.
+      </small>
       <p>
-        Version <b>1.5</b>
+        Version <b>2.0</b>
       </p>
     </footer>
   );

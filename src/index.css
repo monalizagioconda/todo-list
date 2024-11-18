@@ -1,7 +1,19 @@
+:root {
+  --backgroud-blue: #c3d8ef;
+  --font-color: #322618;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.subject {
+  display: flex;
+  gap: 20px;
+  font-weight: bold;
+  color: var(--font-color);
 }
 
 ul {
@@ -26,7 +38,7 @@ small {
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f1d4b3;
+  background: linear-gradient(to top, var(--backgroud-blue), #f2f4fa);
   overflow: hidden;
   color: #292218;
 }
@@ -56,7 +68,7 @@ main {
 header {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
-  background-color: #fbf5ed;
+  background-color: var(--backgroud-blue);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;

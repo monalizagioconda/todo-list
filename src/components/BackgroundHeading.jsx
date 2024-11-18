@@ -1,5 +1,5 @@
 function BackgroundHeading() {
-  return <h1>Trekbag</h1>;
+  return <h1>Marking</h1>;
 }
 
 export default BackgroundHeading;
