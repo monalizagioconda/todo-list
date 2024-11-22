@@ -15,6 +15,9 @@
   font-weight: bold;
   color: var(--font-color);
 }
+.subject p {
+  cursor: pointer;
+}
 
 ul {
   list-style: none;
