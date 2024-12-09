@@ -15,6 +15,7 @@
   font-weight: bold;
   color: var(--font-color);
 }
+
 .subject p {
   cursor: pointer;
 }
@@ -89,7 +90,7 @@ header {
   grid-row: 2 / 3;
   background-color: #fff;
   overflow-y: scroll;
-  scrollbar-color: red orange;
+  scrollbar-color: #dcdde2 #e5e6ec;
   scrollbar-width: thin;
   position: relative;
 }
@@ -115,7 +116,7 @@ header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.item > input {
+.item>input {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -123,7 +124,7 @@ header {
   height: 100%;
 }
 
-.item > label {
+.item>label {
   cursor: pointer;
   flex: 1;
   height: 100%;
@@ -132,12 +133,12 @@ header {
   padding: 0 28px;
 }
 
-label > span {
+label>span {
   color: #34495e;
   padding: 0.5rem 0.25rem;
 }
 
-label > input {
+label>input {
   height: 15px;
   width: 15px;
   -webkit-appearance: none;
@@ -154,11 +155,11 @@ label > input {
   box-sizing: content-box;
 }
 
-label > input:hover {
+label>input:hover {
   border-color: #8f8474;
 }
 
-label > input:checked {
+label>input:checked {
   border-color: #6e6251;
   background-color: #6e6251;
 }
@@ -168,11 +169,11 @@ label > input:active {
   outline-color: #a1988a;
 } */
 
-label > label {
+label>label {
   cursor: pointer;
 }
 
-.item > button {
+.item>button {
   font-size: 13px;
   text-transform: uppercase;
   position: absolute;
@@ -183,8 +184,8 @@ label > label {
   transition: all 0.1s;
 }
 
-.item > button:hover,
-.item > button:focus {
+.item>button:hover,
+.item>button:focus {
   transform: scale(1.2);
 }
 
@@ -203,7 +204,7 @@ h3 {
 .sidebar {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-  background-color: #fffcf9;
+  background-color: rgb(238, 241, 249);
   border-left: 1px solid rgba(0, 0, 0, 0.07);
   padding: 18px 25px 28px;
   display: flex;
@@ -216,7 +217,7 @@ h2 {
   font-weight: 500;
 }
 
-form > input {
+form>input {
   height: 45px;
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -226,7 +227,7 @@ form > input {
   font-size: 14px;
 }
 
-form > input::placeholder {
+form>input::placeholder {
   font-style: italic;
 }
 

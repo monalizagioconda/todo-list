@@ -1,24 +1,21 @@
-import { initialGroups } from "../lib/constants";
 import { useItemsStore } from "../stores/itemsStore";
 import Counter from "./Counter";
 import Subject from "./Subject";
 
 export default function Header() {
-  const group = useItemsStore((state) => state.group);
-  const switchGroup = useItemsStore((state) => state.switchGroup);
+  const groups = useItemsStore(state => state.groups);
+  const currentGroupIndex = useItemsStore(state => state.currentGroupIndex);
+  const switchGroup = useItemsStore(state => state.switchGroup);
+  const { items } = groups[currentGroupIndex];
+
   return (
     <header>
       <div className="subject">
-        {initialGroups.map(({ name }, idx) => {
-          return (
-            <Subject key={name} title={name} onClick={() => switchGroup(idx)} />
-          );
-        })}
+        {groups.map(({ name }, idx) => (
+          <Subject key={name} title={name} onClick={() => switchGroup(idx)} />
+        ))}
       </div>
-      <Counter
-        numberOfItemsPacked={group.items.filter((item) => item.packed).length}
-        totalNumberOfItems={group.items.length}
-      />
+      <Counter numberOfItemsPacked={items.filter(item => item.packed).length} totalNumberOfItems={items.length} />
     </header>
   );
 }

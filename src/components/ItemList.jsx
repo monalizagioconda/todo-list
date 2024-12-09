@@ -19,10 +19,12 @@ const sortingOptions = [
 ];
 
 export default function ItemList() {
-  const { items } = useItemsStore((state) => state.group);
-  const deleteItem = useItemsStore((state) => state.deleteItem);
-  const toggleItem = useItemsStore((state) => state.toggleItem);
+  const groups = useItemsStore(state => state.groups);
+  const currentGroupIndex = useItemsStore(state => state.currentGroupIndex);
+  const deleteItem = useItemsStore(state => state.deleteItem);
+  const toggleItem = useItemsStore(state => state.toggleItem);
   const [sortBy, setSortBy] = useState("default");
+  const { items } = groups[currentGroupIndex];
 
   const sortedItems = useMemo(
     () =>
@@ -47,22 +49,15 @@ export default function ItemList() {
       {items.length > 0 ? (
         <section className="sorting">
           <Select
-            onChange={(option) => setSortBy(option.value)}
+            onChange={option => setSortBy(option.value)}
             defaultValue={sortingOptions[0]}
             options={sortingOptions}
           />
         </section>
       ) : null}
 
-      {sortedItems.map((item) => {
-        return (
-          <Item
-            key={item.id}
-            item={item}
-            onDeleteItem={deleteItem}
-            onToggleItem={toggleItem}
-          />
-        );
+      {sortedItems.map(item => {
+        return <Item key={item.id} item={item} onDeleteItem={deleteItem} onToggleItem={toggleItem} />;
       })}
     </ul>
   );
@@ -72,11 +67,7 @@ function Item({ item, onDeleteItem, onToggleItem }) {
   return (
     <li className="item">
       <label>
-        <input
-          onChange={() => onToggleItem(item.id)}
-          checked={item.packed}
-          type="checkbox"
-        />
+        <input onChange={() => onToggleItem(item.id)} checked={item.packed} type="checkbox" />
         {item.name}
       </label>
 

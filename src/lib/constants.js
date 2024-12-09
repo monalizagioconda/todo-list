@@ -92,9 +92,71 @@ export const initialGroups = [
       },
     ],
   },
+  {
+    id: 3,
+    name: "Household chores",
+    items: [
+      {
+        id: 1,
+        name: "to do the landry",
+        packed: false,
+      },
+      {
+        id: 2,
+        name: "vacuuming",
+        packed: false,
+      },
+      {
+        id: 3,
+        name: "booking an appointment",
+        packed: false,
+      },
+      {
+        id: 4,
+        name: "fixing the chair",
+        packed: false,
+      },
+      {
+        id: 5,
+        name: "clean the ventilation",
+        packed: false,
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Job tasks",
+    items: [
+      {
+        id: 1,
+        name: "use Zustand",
+        packed: false,
+      },
+      {
+        id: 2,
+        name: "check sidebar component",
+        packed: false,
+      },
+      {
+        id: 3,
+        name: "look for library",
+        packed: false,
+      },
+      {
+        id: 4,
+        name: "header",
+        packed: false,
+      },
+      {
+        id: 5,
+        name: "commit",
+        packed: false,
+      },
+    ],
+  },
 ];
 
 // export const GROUP_NAMES = ["Grocery", "Travel", "Good habits"];
-export const GROUP_NAMES = initialGroups.map((obj) => obj.name);
+export const GROUP_NAMES = initialGroups.map(obj => obj.name);
 
 // group = { id: 2, name: 'Travel', items: [{}, {}]}
