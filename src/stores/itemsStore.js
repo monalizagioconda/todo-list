@@ -2,6 +2,16 @@ import { create } from "zustand";
 import { initialGroups } from "../lib/constants";
 import { persist } from "zustand/middleware";
 
+function updateItems(state, newItems) {
+  const newGroups = [...state.groups];
+  const currentGroup = newGroups[state.currentGroupIndex];
+  const newGroup = { ...currentGroup, items: newItems };
+
+  newGroups.splice(state.currentGroupIndex, 1, newGroup);
+
+  return { groups: newGroups };
+}
+
 export const useItemsStore = create(
   persist(
     set => ({
@@ -15,52 +25,35 @@ export const useItemsStore = create(
         };
 
         set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newGroup = { ...currentGroup, items: [...currentGroup.items, newItem] };
+          const newItems = [...state.groups[state.currentGroupIndex].items, newItem];
 
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
+          return updateItems(state, newItems);
         });
       },
       deleteItem: id => {
         set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newGroup = { ...currentGroup, items: currentGroup.items.filter(item => item.id !== id) };
+          const newItems = state.groups[state.currentGroupIndex].items.filter(item => item.id !== id);
 
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
+          return updateItems(state, newItems);
         });
       },
       toggleItem: id => {
         set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newItems = currentGroup.items.map(item => {
+          const newItems = state.groups[state.currentGroupIndex].items.map(item => {
             if (item.id === id) {
               return { ...item, packed: !item.packed };
             }
             return item;
           });
-          const newGroup = { ...currentGroup, items: newItems };
 
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
+          return updateItems(state, newItems);
         });
       },
       removeAllItems: () => {
         set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newGroup = { ...currentGroup, items: [] }; // group będzie nowym obiektem ze sklonowaną group i nadpisanymi items-ami
+          const newItems = [];
 
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
+          return updateItems(state, newItems);
         });
       },
       resetToInitial: () => {
@@ -73,32 +66,10 @@ export const useItemsStore = create(
         });
       },
       markAllAsComplete: () => {
-        set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newItems = currentGroup.items.map(item => {
-            return { ...item, packed: true };
-          });
-          const newGroup = { ...currentGroup, items: newItems };
-
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
-        });
+        set(state => markAllAs(state, true));
       },
       markAllAsIncomplete: () => {
-        set(state => {
-          const newGroups = [...state.groups];
-          const currentGroup = newGroups[state.currentGroupIndex];
-          const newItems = currentGroup.items.map(item => {
-            return { ...item, packed: false };
-          });
-          const newGroup = { ...currentGroup, items: newItems };
-
-          newGroups.splice(state.currentGroupIndex, 1, newGroup);
-
-          return { groups: newGroups };
-        });
+        set(state => markAllAs(state, false));
       },
       switchGroup: idx => {
         set({ currentGroupIndex: idx });
@@ -109,3 +80,9 @@ export const useItemsStore = create(
     }
   )
 );
+
+function markAllAs(state, complete) {
+  const newItems = state.groups[state.currentGroupIndex].items.map(item => ({ ...item, packed: complete }));
+
+  return updateItems(state, newItems);
+}
