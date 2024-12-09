@@ -60,10 +60,11 @@ export const useItemsStore = create(
         });
       },
       markAllAsComplete: () => {
-        set(state => markAllAs(state, true));
+        // set(state => markAllAs(state, true));
+        set(markAllAs(true));
       },
       markAllAsIncomplete: () => {
-        set(state => markAllAs(state, false));
+        set(markAllAs(false));
       },
       switchGroup: idx => {
         set({ currentGroupIndex: idx });
@@ -75,7 +76,13 @@ export const useItemsStore = create(
   )
 );
 
-const markAllAs = (state, complete) =>
+// currying
+// markAllAs(state, false)
+// const innerfunction = markAllAs(false);
+// innerfunction(state);
+// markAllAs(false)(state)
+
+const markAllAs = complete => state =>
   updateItems(
     state,
     state.groups[state.currentGroupIndex].items.map(item => ({ ...item, packed: complete }))
