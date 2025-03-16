@@ -1,4 +1,16 @@
-export const initialGroups = [
+export type Item = {
+  id: number;
+  name: string;
+  packed: boolean;
+};
+
+export type Group = {
+  id: number;
+  name: string;
+  items: Item[];
+};
+
+export const initialGroups: Group[] = [
   {
     id: 1,
     name: "Grocery",
@@ -157,6 +169,6 @@ export const initialGroups = [
 ];
 
 // export const GROUP_NAMES = ["Grocery", "Travel", "Good habits"];
-export const GROUP_NAMES = initialGroups.map(obj => obj.name);
+export const GROUP_NAMES = initialGroups.map((obj) => obj.name);
 
 // group = { id: 2, name: 'Travel', items: [{}, {}]}

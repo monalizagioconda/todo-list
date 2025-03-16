@@ -1,6 +1,7 @@
 :root {
   --backgroud-blue: #c3d8ef;
   --font-color: #322618;
+  --secondary-btn-brown: #635443;
 }
 
 * {
@@ -18,6 +19,16 @@
 
 .subject p {
   cursor: pointer;
+}
+
+.subject p:hover {
+  color: var(--secondary-btn-brown);
+  font-weight: 800;
+}
+
+.subject p.active {
+  color: var(--secondary-btn-brown);
+  font-weight: 800;
 }
 
 ul {
@@ -65,8 +76,6 @@ main {
   grid-template-columns: 7fr 4fr;
   grid-template-rows: 59px 1fr;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
-  /* box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px; */
-  /* box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; */
 }
 
 header {
@@ -161,7 +170,7 @@ label>input:hover {
 
 label>input:checked {
   border-color: #6e6251;
-  background-color: #6e6251;
+  background-color: var(--secondary-btn-brown);
 }
 
 /* label > input:focus,
@@ -236,7 +245,7 @@ form>input::placeholder {
   width: 100%;
   border: none;
   border-radius: 5px;
-  background-color: #473a2b;
+  background-color: var(--secondary-btn-brown);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -269,7 +278,7 @@ form>input::placeholder {
 }
 
 h1 {
-  font-size: 128px;
+  font-size: 78px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.05);
   position: absolute;

@@ -1,15 +1,28 @@
 import { create } from "zustand";
-import { initialGroups } from "../lib/constants";
+import { Group, initialGroups, type Item } from "../lib/constants";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
+type ItemsStore = {
+  groups: Group[];
+  currentGroupIndex: number;
+  addItem: (text: string) => void;
+  deleteItem: (id: number) => void;
+  toggleItem: (id: number) => void;
+  removeAllItems: () => void;
+  resetToInitial: () => void;
+  markAllAsComplete: () => void;
+  markAllAsIncomplete: () => void;
+  switchGroup: (idx: number) => void;
+};
+
 export const useItemsStore = create(
   persist(
-    immer(set => ({
+    immer<ItemsStore>(set => ({
       groups: initialGroups,
       currentGroupIndex: 0,
       addItem: newItemText => {
-        const newItem = {
+        const newItem: Item = {
           id: new Date().getTime(),
           name: newItemText,
           packed: false,
@@ -33,7 +46,9 @@ export const useItemsStore = create(
         set(state => {
           const item = state.groups[state.currentGroupIndex].items.find(item => item.id === id);
 
-          item.packed = !item.packed;
+          if (item) {
+            item.packed = !item.packed;
+          }
         });
       },
       removeAllItems: () => {
@@ -69,7 +84,7 @@ export const useItemsStore = create(
 // innerfunction(state);
 // markAllAs(false)(state)
 
-const markAllAs = complete => state => {
+const markAllAs = (complete: boolean) => (state: ItemsStore) => {
   state.groups[state.currentGroupIndex].items.forEach(item => {
     item.packed = complete;
   });

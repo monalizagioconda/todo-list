@@ -12,7 +12,7 @@ export default function Header() {
     <header>
       <div className="subject">
         {groups.map(({ name }, idx) => (
-          <Subject key={name} title={name} onClick={() => switchGroup(idx)} />
+          <Subject key={name} active={currentGroupIndex === idx} title={name} onClick={() => switchGroup(idx)} />
         ))}
       </div>
       <Counter numberOfItemsPacked={items.filter(item => item.packed).length} totalNumberOfItems={items.length} />

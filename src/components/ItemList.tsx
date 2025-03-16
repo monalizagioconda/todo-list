@@ -2,8 +2,16 @@ import Select from "react-select";
 import EmptyView from "./EmptyView";
 import { useMemo, useState } from "react";
 import { useItemsStore } from "../stores/itemsStore";
+import type { Item } from "../lib/constants";
 
-const sortingOptions = [
+type SortBy = "default" | "packed" | "unpacked";
+
+type SortingOption = {
+  label: string;
+  value: SortBy;
+};
+
+const sortingOptions: SortingOption[] = [
   {
     label: "Sort by default",
     value: "default",
@@ -23,47 +31,47 @@ export default function ItemList() {
   const currentGroupIndex = useItemsStore(state => state.currentGroupIndex);
   const deleteItem = useItemsStore(state => state.deleteItem);
   const toggleItem = useItemsStore(state => state.toggleItem);
-  const [sortBy, setSortBy] = useState("default");
+  const [sortBy, setSortBy] = useState<SortBy>("default");
   const { items } = groups[currentGroupIndex];
 
-  const sortedItems = useMemo(
-    () =>
-      [...items].sort((a, b) => {
-        if (sortBy === "packed") {
-          return b.packed - a.packed;
-        }
+  const sortedItems = useMemo(() => {
+    if (sortBy === "default") return items;
 
-        if (sortBy === "unpacked") {
-          return a.packed - b.packed;
-        }
-
-        return;
-      }),
-    [items, sortBy]
-  );
+    return [...items].sort((a, b) =>
+      sortBy === "packed" ? Number(b.packed) - Number(a.packed) : Number(a.packed) - Number(b.packed)
+    );
+  }, [items, sortBy]);
 
   return (
     <ul className="item-list">
-      {items.length === 0 ? <EmptyView /> : null}
+      {items.length === 0 && <EmptyView />}
 
-      {items.length > 0 ? (
+      {items.length > 0 && (
         <section className="sorting">
           <Select
-            onChange={option => setSortBy(option.value)}
+            onChange={option => {
+              if (option) setSortBy(option.value);
+            }}
             defaultValue={sortingOptions[0]}
             options={sortingOptions}
           />
         </section>
-      ) : null}
+      )}
 
-      {sortedItems.map(item => {
-        return <Item key={item.id} item={item} onDeleteItem={deleteItem} onToggleItem={toggleItem} />;
-      })}
+      {sortedItems.map(item => (
+        <Item key={item.id} item={item} onDeleteItem={deleteItem} onToggleItem={toggleItem} />
+      ))}
     </ul>
   );
 }
 
-function Item({ item, onDeleteItem, onToggleItem }) {
+type ItemProps = {
+  item: Item;
+  onDeleteItem: (id: number) => void;
+  onToggleItem: (id: number) => void;
+};
+
+function Item({ item, onDeleteItem, onToggleItem }: ItemProps) {
   return (
     <li className="item">
       <label>
@@ -71,13 +79,7 @@ function Item({ item, onDeleteItem, onToggleItem }) {
         {item.name}
       </label>
 
-      <button
-        onClick={() => {
-          onDeleteItem(item.id);
-        }}
-      >
-        ❌
-      </button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   );
 }

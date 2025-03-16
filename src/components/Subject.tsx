@@ -1,5 +1,13 @@
-import React from "react";
+type SubjectProps = {
+  active: boolean;
+  title: string;
+  onClick: () => void;
+};
 
-export default function Subject({ title, onClick }) {
-  return <p onClick={onClick}>{title}</p>;
+export default function Subject({ active, title, onClick }: SubjectProps) {
+  return (
+    <p onClick={onClick} className={active ? "active" : undefined}>
+      {title}
+    </p>
+  );
 }
